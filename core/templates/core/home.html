@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Django Website</title>
-</head>
-<body>
+{% extends "core/base.html" %}
 
-    <h1>Hello from Django!</h1>
-    <p>This page is coming from an HTML template.</p>
+{% block title %}Home - E-Learning{% endblock %}
 
-</body>
-</html>
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h2><strong>Hello, {{ user.username }}</strong></h2>
+{% endif %}
+
+<h1>Welcome to My E-Learning Site</h1>
+
+<p>Here you can easily Learn, explore, and manage your courses.</p>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ course.title }} - E-Learning{% endblock %}
+
+{% block content %}
+
+<h1>{{ course.title }}</h1>
+
+<p>{{ course.description }}</p>
+
+<p>
+    <strong>Instructor:</strong> {{ course.instructor }}
+</p>
+
+<p>
+    <strong>Price:</strong> {{ course.price }}
+</p>
+
+{% if user.is_authenticated %}
+
+    <a href="{% url 'course-edit' course.pk %}">
+        Edit Course
+    </a>
+
+    |
+
+    <a href="{% url 'course-delete' course.pk %}">
+        Delete Course
+    </a>
+
+    <br><br>
+
+{% endif %}
+
+<a href="{% url 'course-list' %}">
+    <button>Back to Courses</button>
+</a>
+
+{% endblock %}

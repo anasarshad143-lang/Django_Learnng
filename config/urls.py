@@ -1,29 +1,70 @@
-"""
-URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
-from core.views import home,about,contact,course,student,lesson
+
+from core.views import (
+    home,
+    about,
+    contact,
+    course,
+    student,
+    lesson,
+    CourseListView,
+    CourseDetailView,
+    add_course,
+    signup,
+    user_login,
+    user_logout,
+    edit_course,
+    delete_course,
+)
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home),
-    path('about/', about),
-    path('contact/', contact),
-    path('course/<str:name>/', course),
-    path('student/<int:id>/',student),
-    path('course/<int:course_id>/lesson/<int:lesson_id>/', lesson)
+    path("admin/", admin.site.urls),
+
+    path("", home, name="home"),
+    path("about/", about, name="about"),
+    path("contact/", contact, name="contact"),
+
+    path("signup/", signup, name="signup"),
+    path("login/", user_login, name="login"),
+    path("logout/", user_logout, name="logout"),
+
+    path("course/<str:name>/", course, name="course"),
+    path("student/<int:id>/", student, name="student"),
+
+    path(
+        "course/<int:course_id>/lesson/<int:lesson_id>/",
+        lesson,
+        name="lesson",
+    ),
+
+    path(
+        "courses/",
+        CourseListView.as_view(),
+        name="course-list",
+    ),
+
+    path(
+        "courses/add/",
+        add_course,
+        name="course-add",
+    ),
+    path(
+    "courses/<int:pk>/",
+    CourseDetailView.as_view(),
+    name="course-detail",
+    ),
+
+    path(
+    "courses/<int:pk>/edit/",
+    edit_course,
+    name="course-edit",
+    ),
+
+path(
+    "courses/<int:pk>/delete/",
+    delete_course,
+    name="course-delete"
+    ),
 ]

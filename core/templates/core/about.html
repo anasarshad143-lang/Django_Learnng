@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>About</title>
-</head>
-<body>
+{% extends "core/base.html" %}
 
-    <h1>About Page</h1>
+{% block title %}About - E-Learning{% endblock %}
 
-    <p>My name is {{ name }}</p>
-    <p>My age is {{ age }}</p>
+{% block content %}
 
-</body>
-</html>
+<h1>About E-Learning</h1>
+
+<p>Welcome to our E-Learning platform.</p>
+
+<p>
+    This platform allows users to explore and manage available courses.
+</p>
+
+{% endblock %}

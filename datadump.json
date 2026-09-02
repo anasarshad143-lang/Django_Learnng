@@ -1,0 +1,75 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$4ekLtvkwL43sUIdcEN7jYU$KSbh6jEXp4DqaYFvxY1s40/aNFzVr50FBGL0OBbZoIc=",
+        "last_login": "2026-09-02T14:45:36.398Z",
+        "is_superuser": false,
+        "username": "Anas_bisal",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-02T13:53:42.782Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.course",
+    "pk": 1,
+    "fields": {
+        "title": "Python Fundamentals",
+        "description": "Learn Python from beginner to advanced.",
+        "instructor": "Anas",
+        "price": "5000.00",
+        "level": "beginner",
+        "is_published": true,
+        "created_at": "2026-08-28T06:57:31.609Z",
+        "updated_at": "2026-08-28T06:57:31.609Z"
+    }
+},
+{
+    "model": "core.course",
+    "pk": 2,
+    "fields": {
+        "title": "Django Web Development",
+        "description": "Build powerful web applications using Django.",
+        "instructor": "Anas",
+        "price": "7000.00",
+        "level": "intermediate",
+        "is_published": true,
+        "created_at": "2026-08-28T06:57:50.662Z",
+        "updated_at": "2026-08-28T06:57:50.663Z"
+    }
+},
+{
+    "model": "core.course",
+    "pk": 3,
+    "fields": {
+        "title": "Machine Learning",
+        "description": "Learn the fundamentals of machine learning.",
+        "instructor": "Anas",
+        "price": "8000.00",
+        "level": "advanced",
+        "is_published": false,
+        "created_at": "2026-08-28T06:58:01.330Z",
+        "updated_at": "2026-09-02T14:48:32.174Z"
+    }
+},
+{
+    "model": "core.course",
+    "pk": 4,
+    "fields": {
+        "title": "OOP",
+        "description": "This is OOP",
+        "instructor": "Zaid",
+        "price": "7000.00",
+        "level": "intermediate",
+        "is_published": false,
+        "created_at": "2026-09-02T14:19:20.136Z",
+        "updated_at": "2026-09-02T14:19:20.136Z"
+    }
+}
+]

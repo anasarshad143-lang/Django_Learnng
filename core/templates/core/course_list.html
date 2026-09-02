@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% block title %}Courses - E-Learning{% endblock %}
+
+{% block content %}
+
+<h1>Available Courses</h1>
+<p> Click on Any Course to see its Details</p>
+
+{% for course in courses %}
+
+```
+<h2>
+    <a href="{% url 'course-detail' course.pk %}">
+        {{ course.title }}
+    </a>
+</h2>
+
+<p>{{ course.description }}</p>
+<p>Instructor: {{ course.instructor }}</p>
+<p>Price: {{ course.price }}</p>
+```
+
+{% empty %}
+
+```
+<p>No courses are available yet.</p>
+```
+
+{% endfor %}
+
+{% endblock %}
