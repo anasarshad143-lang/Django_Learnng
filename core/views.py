@@ -48,11 +48,8 @@ class CourseDetailView(DetailView):
     context_object_name = "course"
 
 
+@login_required
 def add_course(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Login required to access this page.")
-        return redirect(f"/login/?next=/courses/add/")
-
     if request.method == "POST":
         form = CourseForm(request.POST)
 
@@ -144,3 +141,23 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("home")
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .forms import ProfileUpdateForm
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('edit_profile')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, 'core/edit_profile.html', {'form': form})
+
+

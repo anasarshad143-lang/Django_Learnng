@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path
+from django.urls import path
+
 
 from core.views import (
     home,
@@ -16,6 +18,8 @@ from core.views import (
     user_logout,
     edit_course,
     delete_course,
+    edit_profile,
+    
 )
 
 
@@ -29,6 +33,7 @@ urlpatterns = [
     path("signup/", signup, name="signup"),
     path("login/", user_login, name="login"),
     path("logout/", user_logout, name="logout"),
+    path("profile/edit/", edit_profile, name="edit_profile"),
 
     path("course/<str:name>/", course, name="course"),
     path("student/<int:id>/", student, name="student"),
@@ -62,9 +67,10 @@ urlpatterns = [
     name="course-edit",
     ),
 
-path(
+    path(
     "courses/<int:pk>/delete/",
     delete_course,
     name="course-delete"
     ),
+   
 ]
