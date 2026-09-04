@@ -4,12 +4,82 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-    <h2><strong>Hello, {{ user.username }}</strong></h2>
-{% endif %}
+<section class="hero">
 
-<h1>Welcome to My E-Learning Site</h1>
+    <span class="hero-badge">LEARN • GROW • SUCCEED</span>
 
-<p>Here you can easily Learn, explore, and manage your courses.</p>
+    <h1>Learn. Grow. Succeed.</h1>
+
+    <p>
+        Empowering learners with accessible courses and practical
+        knowledge designed to help you develop skills and achieve
+        your goals.
+    </p>
+
+    <a href="{% url 'course-list' %}" class="btn">
+        Explore Courses
+    </a>
+
+    {% if not user.is_authenticated %}
+        <a href="{% url 'signup' %}" class="btn btn-secondary">
+            Create Your Account
+        </a>
+    {% endif %}
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-eyebrow">Why Choose Us</div>
+
+    <h2>Everything You Need to Keep Learning</h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">📚</div>
+
+            <h3>Quality Learning</h3>
+
+            <p>
+                Explore carefully structured courses designed
+                for meaningful learning and skill development.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">⏱</div>
+
+            <h3>Learn at Your Own Pace</h3>
+
+            <p>
+                Access course information and learn according
+                to your own schedule and learning goals.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">🚀</div>
+
+            <h3>Build Your Future</h3>
+
+            <p>
+                Develop practical knowledge and skills that
+                support your academic and professional growth.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

@@ -5,10 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
-from .models import Course
+from .models import Course, ContactMessage
 from .forms import CourseForm
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .forms import ProfileUpdateForm
 
 def home(request):
     return render(request, "core/home.html")
@@ -19,6 +20,24 @@ def about(request):
 
 
 def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+
+        ContactMessage.objects.create(
+            name=name,
+            email=email,
+            message=message
+        )
+
+        messages.success(
+            request,
+            "Your message has been sent successfully!"
+        )
+
+        return redirect("contact")
+
     return render(request, "core/contact.html")
 
 
@@ -142,10 +161,6 @@ def user_logout(request):
     logout(request)
     return redirect("home")
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .forms import ProfileUpdateForm
 
 @login_required
 def edit_profile(request):

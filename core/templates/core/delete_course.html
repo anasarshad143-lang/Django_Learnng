@@ -4,23 +4,139 @@
 
 {% block content %}
 
-<h1>Delete Course</h1>
+<div class="delete-page">
 
-<p>
-    Are you sure you want to delete
-    <strong>{{ course }}</strong>?
-</p>
+    <div class="delete-card">
 
-<form method="POST">
+        <div class="warning-icon">
+            ⚠️
+        </div>
 
-    {% csrf_token %}
+        <span class="delete-label">DELETE COURSE</span>
 
-    <button type="submit">Yes, Delete</button>
+        <h1>Delete this course?</h1>
 
-</form>
+        <p>
+            Are you sure you want to permanently delete
+            <strong>{{ course }}</strong>?
+        </p>
 
-<br>
+        <p class="warning-text">
+            This action cannot be undone.
+        </p>
 
-<a href="{% url 'course-detail' course.pk %}">Cancel</a>
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button type="submit" class="delete-confirm">
+                🗑️ Yes, Delete Course
+            </button>
+
+            <a href="{% url 'course-detail' course.pk %}" class="cancel-delete">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.delete-page {
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.delete-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.warning-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--error-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.delete-label {
+    color: var(--error);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.delete-card h1 {
+    color: var(--navy);
+    font-size: 30px;
+    margin: 10px 0 15px;
+}
+
+.delete-card > p {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.delete-card strong {
+    color: var(--navy);
+}
+
+.warning-text {
+    color: var(--error) !important;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.delete-confirm {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 9px;
+    background: var(--error);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.delete-confirm:hover {
+    background: #7f1d1d;
+}
+
+.cancel-delete {
+    display: block;
+    margin-top: 15px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cancel-delete:hover {
+    color: var(--navy);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .delete-card {
+        padding: 35px 25px;
+    }
+}
+
+</style>
 
 {% endblock %}

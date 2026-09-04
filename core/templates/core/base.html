@@ -1,48 +1,585 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}E-Learning{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Modern Teal Color Palette */
+            --navy: #042f2e;        /* Dark Teal for Navigation & Footer */
+            --navy-light: #115e59;
+            --accent: #0d9488;             /* Vibrant Teal */
+            --accent-dark: #0f766e;        /* Darker Teal for hover states */
+            --accent-light: #ccfbf1;       /* Soft Teal background tint */
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --success: #166534;
+            --success-bg: #dcfce7;
+            --error: #991b1b;
+            --error-bg: #fee2e2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- GLOBAL LINKS & FORMS ---------- */
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .form-card {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        form input[type="text"],
+        form input[type="password"],
+        form input[type="email"],
+        form input[type="number"],
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            font-family: inherit;
+            background: #ffffff;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="password"]:focus,
+        form input[type="email"]:focus,
+        form input[type="number"]:focus,
+        form textarea:focus,
+        form select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .helptext, .helptext ul {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            line-height: 1.4;
+            padding-left: 18px;
+        }
+
+        form button[type="submit"],
+        form input[type="submit"] {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.15s ease;
+        }
+
+        form button[type="submit"]:hover,
+        form input[type="submit"]:hover {
+            background: var(--accent-dark);
+        }
+
+        /* ---------- NAVIGATION ---------- */
+
+        nav {
+            background: var(--navy);
+            padding: 16px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand {
+            color: white;
+            font-size: 22px;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand:hover {
+            text-decoration: none;
+        }
+
+        .brand::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background: linear-gradient(135deg, var(--accent), #2dd4bf);
+            display: inline-block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14.5px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: color 0.15s ease, background 0.15s ease;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.06);
+            text-decoration: none;
+        }
+
+        .nav-links .nav-cta {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-links .nav-cta:hover {
+            background: var(--accent-dark);
+        }
+
+        /* ---------- USER BADGE CARD (OPTION 1) ---------- */
+
+        .user-menu-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 30px;
+        }
+
+        .user-badge-greeting {
+            color: #5eead4;
+            font-weight: 600;
+            font-size: 13.5px;
+            padding-right: 10px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-card-link {
+            color: #f8fafc !important;
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 4px 8px !important;
+            border-radius: 6px;
+        }
+
+        .user-card-link:hover {
+            background: rgba(255, 255, 255, 0.12) !important;
+        }
+
+        .user-card-logout {
+            color: #fca5a5 !important;
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 4px 8px !important;
+            border-radius: 6px;
+        }
+
+        .user-card-logout:hover {
+            background: rgba(239, 68, 68, 0.2) !important;
+            color: #f87171 !important;
+        }
+
+        /* ---------- LAYOUT ---------- */
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 25px;
+            min-height: calc(100vh - 150px);
+        }
+
+        /* ---------- MESSAGES ---------- */
+
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .message.success {
+            background: var(--success-bg);
+            color: var(--success);
+            border-color: #bbf7d0;
+        }
+
+        .message.error {
+            background: var(--error-bg);
+            color: var(--error);
+            border-color: #fecaca;
+        }
+
+        .message.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde68a;
+        }
+
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #bfdbfe;
+        }
+
+        /* ---------- HERO ---------- */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #134e4a 100%);
+            border-radius: 20px;
+            padding: 80px 60px;
+            margin-bottom: 40px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(13, 148, 136, 0.45) 0%,
+                rgba(13, 148, 136, 0) 70%
+            );
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: -140px;
+            left: 30%;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(45, 212, 191, 0.25) 0%,
+                rgba(45, 212, 191, 0) 70%
+            );
+        }
+
+        .hero-badge {
+            position: relative;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #99f6e4;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            position: relative;
+            font-size: 50px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin: 0 0 18px;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            position: relative;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            max-width: 620px;
+            margin: 0 0 32px;
+        }
+
+        /* ---------- BUTTONS ---------- */
+
+        .btn {
+            position: relative;
+            display: inline-block;
+            padding: 13px 26px;
+            margin: 0 10px 10px 0;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            background: white;
+            color: var(--navy);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        /* ---------- SECTIONS ---------- */
+
+        .section {
+            background: white;
+            padding: 45px;
+            border-radius: 18px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .section-eyebrow {
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 8px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--navy);
+        }
+
+        /* ---------- CARDS ---------- */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--bg);
+            padding: 28px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.18s ease,
+                border-color 0.18s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+            border-color: #99f6e4;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--accent-light);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 14.5px;
+        }
+
+        /* ---------- FOOTER ---------- */
+
+        footer {
+            background: var(--navy);
+            padding: 24px 50px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            margin: 0;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 25px;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .hero {
+                padding: 50px 28px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section {
+                padding: 30px 24px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-
 <nav>
-    <h2>E-Learning</h2>
+    <a href="{% url 'home' %}" class="brand">
+        E-Learning
+    </a>
 
-    <a href="{% url 'home' %}">Home</a>
-    |
-    <a href="{% url 'course-list' %}">Courses</a>
-    |
-    <a href="{% url 'course-add' %}">Add Course</a>
-    |
-    <a href="{% url 'about' %}">About</a>
-    |
-    <a href="{% url 'contact' %}">Contact</a>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'course-list' %}">Courses</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'contact' %}">Contact</a>
 
-    {% if user.is_authenticated %}
-        |
-        <a href="{% url 'edit_profile' %}">Edit Profile</a>
-        |
-        <a href="{% url 'logout' %}">Logout</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'course-add' %}">Add Course</a>
 
-
-
-     {% else %}
-
-        |
-        <a href="{% url 'signup' %}">Sign Up</a>
-        |
-        <a href="{% url 'login' %}">Login</a>
-
-    {% endif %}
+            <!-- Encapsulated User Card -->
+            <div class="user-menu-card">
+                <span class="user-badge-greeting">
+                    👤 {{ user.first_name|default:user.username }}
+                </span>
+                <a href="{% url 'edit_profile' %}" class="user-card-link">Profile</a>
+                <a href="{% url 'logout' %}" class="user-card-logout">Logout</a>
+            </div>
+        {% else %}
+            <a href="{% url 'signup' %}">Sign Up</a>
+            <a href="{% url 'login' %}" class="nav-cta">
+                Login
+            </a>
+        {% endif %}
+    </div>
 </nav>
-<hr>
 
-{% block content %}
-{% endblock %}
+<main class="container">
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    <p class="footer-bottom">
+        © 2026 E-Learning. All rights reserved.
+    </p>
+</footer>
 
 </body>
 </html>

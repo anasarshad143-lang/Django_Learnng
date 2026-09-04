@@ -1,19 +1,146 @@
-{% extends 'core/base.html' %}
+{% extends "core/base.html" %}
 
 {% block title %}Edit Profile - E-Learning{% endblock %}
 
 {% block content %}
-<h2>Edit Profile</h2>
 
-{% if messages %}
-    {% for message in messages %}
-        <p style="color: green;">{{ message }}</p>
-    {% endfor %}
-{% endif %}
+<div class="profile-page">
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-</form>
+    <div class="profile-header">
+
+        <div class="profile-avatar">
+            {{ user.username|first|upper }}
+        </div>
+
+        <div>
+            <span>MY PROFILE</span>
+            <h1>Edit Your Profile</h1>
+            <p>Update your account information and personal details.</p>
+        </div>
+
+    </div>
+
+
+    <div class="profile-card">
+
+        <div class="section-eyebrow">Account Information</div>
+        <h2>Personal Details</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="save-profile">
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.profile-page {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    background: linear-gradient(135deg, var(--navy), #115e59);
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 25px;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+}
+
+.profile-header span {
+    color: #99f6e4;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.profile-header h1 {
+    margin: 7px 0;
+    font-size: 32px;
+}
+
+.profile-header p {
+    margin: 0;
+    color: #ccfbf1;
+    font-size: 14px;
+}
+
+.profile-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 35px;
+}
+
+.profile-card h2 {
+    color: var(--navy);
+    margin: 0 0 25px;
+    font-size: 23px;
+}
+
+.profile-card form p {
+    margin-bottom: 20px;
+}
+
+.save-profile {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 9px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.save-profile:hover {
+    background: var(--accent-dark);
+}
+
+@media (max-width: 768px) {
+
+    .profile-header {
+        padding: 30px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-card {
+        padding: 25px;
+    }
+
+}
+
+</style>
+
 {% endblock %}

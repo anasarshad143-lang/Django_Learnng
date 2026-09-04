@@ -4,12 +4,122 @@
 
 {% block content %}
 
-<h1>About E-Learning</h1>
+<section class="about-hero">
+    <span>ABOUT E-LEARNING</span>
+    <h1>Learning Made Simple.</h1>
+    <p>
+        E-Learning is designed to make quality education accessible,
+        practical, and easy to explore for everyone.
+    </p>
+</section>
 
-<p>Welcome to our E-Learning platform.</p>
+<section class="section">
 
-<p>
-    This platform allows users to explore and manage available courses.
-</p>
+
+<div class="section-eyebrow">Our Purpose</div>
+<h2>Learn. Grow. Succeed.</h2>
+
+<div class="about-grid">
+
+    <div class="about-card">
+        <div class="card-icon">📚</div>
+        <h3>Quality Courses</h3>
+        <p>
+            Discover structured courses designed to help learners
+            develop useful knowledge and practical skills.
+        </p>
+    </div>
+
+    <div class="about-card">
+        <div class="card-icon">🎯</div>
+        <h3>Focused Learning</h3>
+        <p>
+            Learn at your own pace with resources focused on
+            meaningful learning and skill development.
+        </p>
+    </div>
+
+    <div class="about-card">
+        <div class="card-icon">🚀</div>
+        <h3>Future Ready</h3>
+        <p>
+            Build knowledge and skills that can support your
+            academic and professional goals.
+        </p>
+    </div>
+
+</div>
+
+
+</section>
+
+<style>
+
+.about-hero {
+    background: linear-gradient(135deg, var(--navy), #115e59);
+    color: white;
+    padding: 65px 50px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.about-hero span {
+    color: #99f6e4;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.about-hero h1 {
+    font-size: 42px;
+    margin: 15px 0;
+}
+
+.about-hero p {
+    max-width: 650px;
+    color: #ccfbf1;
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.about-card {
+    padding: 28px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.about-card h3 {
+    color: var(--navy);
+    margin-bottom: 10px;
+}
+
+.about-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-hero {
+        padding: 45px 28px;
+    }
+
+    .about-hero h1 {
+        font-size: 34px;
+    }
+}
+
+</style>
 
 {% endblock %}
