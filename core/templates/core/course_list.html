@@ -6,7 +6,6 @@
 
 <section class="section">
 
-```
 <div class="section-eyebrow">Explore</div>
 
 <div class="page-heading">
@@ -15,7 +14,7 @@
         <p>Explore courses and build skills for your future.</p>
     </div>
 
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
         <a href="{% url 'course-add' %}" class="btn btn-teal">+ Add Course</a>
     {% endif %}
 </div>
@@ -62,7 +61,6 @@
     </div>
 
 {% endif %}
-```
 
 </section>
 

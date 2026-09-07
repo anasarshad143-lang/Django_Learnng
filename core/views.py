@@ -69,6 +69,9 @@ class CourseDetailView(DetailView):
 
 @login_required
 def add_course(request):
+    if not request.user.is_staff:
+        return redirect("course-list")
+
     if request.method == "POST":
         form = CourseForm(request.POST)
 
@@ -84,6 +87,9 @@ def add_course(request):
 
 @login_required
 def edit_course(request, pk):
+    if not request.user.is_staff:
+        return redirect("course-list")
+
     course = get_object_or_404(Course, pk=pk)
 
     if request.method == "POST":
@@ -105,6 +111,9 @@ def edit_course(request, pk):
 
 @login_required
 def delete_course(request, pk):
+    if not request.user.is_staff:
+        return redirect("course-list")
+
     course = get_object_or_404(Course, pk=pk)
 
     if request.method == "POST":
@@ -123,7 +132,9 @@ def signup(request):
         form = UserCreationForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.email = request.POST.get("email", "")
+            user.save()
             return redirect("login")
 
     else:
