@@ -32,6 +32,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 # Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,8 +45,18 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'anymail',
     'core',
 ]
+
+# Email Configuration (Resend API over HTTPS)
+EMAIL_BACKEND = 'anymail.backends.resend.EmailBackend'
+ANYMAIL = {
+    'RESEND_API_KEY': os.environ.get('RESEND_API_KEY'),
+}
+
+# Default testing sender address for Resend
+DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
