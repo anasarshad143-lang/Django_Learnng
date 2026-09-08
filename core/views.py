@@ -1,15 +1,16 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView
-from django.contrib.auth.forms import UserCreationForm
+import random
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import Course, ContactMessage
-from .forms import CourseForm
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .forms import ProfileUpdateForm
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import DetailView, ListView
+
+from .forms import CourseForm, ProfileUpdateForm
+from .models import ContactMessage, Course, EmailVerificationOTP
+
 
 def home(request):
     return render(request, "core/home.html")
@@ -25,16 +26,9 @@ def contact(request):
         email = request.POST.get("email")
         message = request.POST.get("message")
 
-        ContactMessage.objects.create(
-            name=name,
-            email=email,
-            message=message
-        )
+        ContactMessage.objects.create(name=name, email=email, message=message)
 
-        messages.success(
-            request,
-            "Your message has been sent successfully!"
-        )
+        messages.success(request, "Your message has been sent successfully!")
 
         return redirect("contact")
 
@@ -50,9 +44,7 @@ def student(request, id):
 
 
 def lesson(request, course_id, lesson_id):
-    return HttpResponse(
-        f"Course: {course_id}, Lesson: {lesson_id}"
-    )
+    return HttpResponse(f"Course: {course_id}, Lesson: {lesson_id}")
 
 
 class CourseListView(ListView):
@@ -78,7 +70,6 @@ def add_course(request):
         if form.is_valid():
             form.save()
             return redirect("course-list")
-
     else:
         form = CourseForm()
 
@@ -98,14 +89,11 @@ def edit_course(request, pk):
         if form.is_valid():
             form.save()
             return redirect("course-detail", pk=course.pk)
-
     else:
         form = CourseForm(instance=course)
 
     return render(
-        request,
-        "core/edit_course.html",
-        {"form": form, "course": course}
+        request, "core/edit_course.html", {"form": form, "course": course}
     )
 
 
@@ -120,50 +108,120 @@ def delete_course(request, pk):
         course.delete()
         return redirect("course-list")
 
-    return render(
-        request,
-        "core/delete_course.html",
-        {"course": course}
-    )
+    return render(request, "core/delete_course.html", {"course": course})
 
 
 def signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
 
-        if form.is_valid():
-            user = form.save()
-            user.email = request.POST.get("email", "")
+        if User.objects.filter(username=username).exists():
+            return render(
+                request,
+                "core/signup.html",
+                {"error": "Username already exists."},
+            )
+
+        if User.objects.filter(email=email).exists():
+            return render(
+                request,
+                "core/signup.html",
+                {"error": "Email already exists."},
+            )
+
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
+
+        user.is_active = False
+        user.save()
+
+        otp = str(random.randint(100000, 999999))
+
+        EmailVerificationOTP.objects.update_or_create(
+            user=user, defaults={"otp": otp, "is_verified": False}
+        )
+
+        send_mail(
+            "Email Verification - E-Learning",
+            f"Your email verification OTP is: {otp}\n\n"
+            "This OTP is valid for 10 minutes.",
+            "noreply@elearning.com",
+            [email],
+        )
+
+        return redirect("verify-otp", user_id=user.id)
+
+    return render(request, "core/signup.html")
+
+def verify_otp(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    try:
+        verification = EmailVerificationOTP.objects.get(user=user)
+    except EmailVerificationOTP.DoesNotExist:
+        return redirect("signup")
+
+    if request.method == "POST":
+        entered_otp = request.POST.get("otp")
+
+        if verification.is_expired():
+            return render(
+                request,
+                "core/verify_otp.html",
+                {
+                    "user_id": user_id,
+                    "error": "OTP has expired. Please register again."
+                }
+            )
+
+        if entered_otp == verification.otp:
+            verification.is_verified = True
+            verification.save()
+
+            user.is_active = True
             user.save()
+
+            messages.success(
+                request,
+                "Your email has been verified successfully. You can now log in."
+            )
+
             return redirect("login")
 
-    else:
-        form = UserCreationForm()
+        return render(
+            request,
+            "core/verify_otp.html",
+            {
+                "user_id": user_id,
+                "error": "Invalid OTP. Please try again."
+            }
+        )
 
-    return render(request, "core/signup.html", {"form": form})
-
+    return render(
+        request,
+        "core/verify_otp.html",
+        {"user_id": user_id}
+    )
 
 def user_login(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
             return redirect("home")
 
-        else:
-            return render(
-                request,
-                "core/login.html",
-                {"error": "Invalid username or password."}
-            )
+        return render(
+            request,
+            "core/login.html",
+            {"error": "Invalid username or password."},
+        )
 
     return render(request, "core/login.html")
 
@@ -175,15 +233,18 @@ def user_logout(request):
 
 @login_required
 def edit_profile(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ProfileUpdateForm(request.POST, instance=request.user)
+
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('edit_profile')
+
+            messages.success(
+                request, "Your profile has been updated successfully!"
+            )
+
+            return redirect("edit_profile")
     else:
         form = ProfileUpdateForm(instance=request.user)
 
-    return render(request, 'core/edit_profile.html', {'form': form})
-
-
+    return render(request, "core/edit_profile.html", {"form": form})

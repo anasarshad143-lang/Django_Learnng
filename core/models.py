@@ -1,4 +1,8 @@
+from datetime import timedelta
+
+from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Course(models.Model):
@@ -25,10 +29,9 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
-from django.db import models
-
 
 class ContactMessage(models.Model):
+
     name = models.CharField(max_length=100)
     email = models.EmailField()
     message = models.TextField()
@@ -36,3 +39,22 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
+
+
+class EmailVerificationOTP(models.Model):
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="email_verification"
+    )
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_verified = models.BooleanField(default=False)
+
+    def is_expired(self):
+        expiration_time = self.created_at + timedelta(minutes=10)
+        return timezone.now() > expiration_time
+
+    def __str__(self):
+        return f"Email verification for {self.user.email}"
