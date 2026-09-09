@@ -149,7 +149,7 @@ def signup(request):
             "Email Verification - E-Learning",
             f"Your email verification OTP is: {otp}\n\n"
             "This OTP is valid for 10 minutes.",
-            "noreply@elearning.com",
+            settings.DEFAULT_FROM_EMAIL,
             [email],
         )
 
