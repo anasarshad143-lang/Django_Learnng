@@ -16,23 +16,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
-# Dynamic DEBUG configuration (defaults to False if not set to True in .env)
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-
-# Host configuration for production on Render
-ALLOWED_HOSTS = ['*']
-
-# Security settings for HTTPS forms on Render
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
+DEBUG = True
+ALLOWED_HOSTS = ['*']  # Render handles host verification
 
 
 # Application definition
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,16 +36,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'anymail',
     'core',
-]
-
-# Email Configuration (Resend API over HTTPS)
-EMAIL_BACKEND = 'anymail.backends.resend.EmailBackend'
-ANYMAIL = {
-    'RESEND_API_KEY': os.environ.get('RESEND_API_KEY'),
-}
-
-# Default testing sender address for Resend
-DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,14 +76,18 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
+# Database
 
-# Database Configuration using DATABASE_URL with a local fallback
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', f"postgresql://{os.environ.get('DB_USER', 'postgres')}:{os.environ.get('DB_PASSWORD', '')}@{os.environ.get('DB_HOST', 'localhost')}:{os.environ.get('DB_PORT', '5432')}/{os.environ.get('DB_NAME', 'elearning_db')}"),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'elearning_db'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+        'CONN_MAX_AGE': 600,
+    }
 }
 
 # Password validation
@@ -150,24 +134,19 @@ STORAGES = {
 }
 
 
-# Email Configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 465))
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
-EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'True') == 'True'
-EMAIL_TIMEOUT = 10  # Prevent infinite hangs on bad SMTP connections
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER or 'webmaster@localhost'
+# Email Configuration (SendGrid API over HTTPS)
+
+EMAIL_BACKEND = 'anymail.backends.sendgrid.EmailBackend'
+ANYMAIL = {
+    'SENDGRID_API_KEY': os.environ.get('SENDGRID_API_KEY'),
+}
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'jodninja1225@gmail.com')
 
 
 LOGIN_URL = "/login/"
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
-# Google OAuth Configuration
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
