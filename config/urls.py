@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.urls import include, path
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 
 from core.views import (
     CourseDetailView,
     CourseListView,
+    CustomPasswordResetConfirmView,
     about,
     add_course,
     contact,
@@ -19,7 +22,6 @@ from core.views import (
     user_logout,
     verify_otp,
 )
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home, name="home"),
@@ -69,5 +71,34 @@ urlpatterns = [
     path(
         "accounts/",
         include("allauth.urls"),
+    ),
+        path(
+        "forgot-password/",
+        auth_views.PasswordResetView.as_view(
+            template_name="core/password_reset_form.html",
+            email_template_name="core/password_reset_email.html",
+            subject_template_name="core/password_reset_subject.txt",
+            success_url=reverse_lazy("password_reset_done"),
+        ),
+        name="password_reset",
+    ),
+    path(
+        "forgot-password/done/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="core/password_reset_done.html"
+        ),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        CustomPasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="core/password_reset_complete.html"
+        ),
+        name="password_reset_complete",
     ),
 ]

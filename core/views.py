@@ -8,9 +8,11 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
-
 from .forms import CourseForm, ProfileUpdateForm
 from .models import ContactMessage, Course, EmailVerificationOTP
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.urls import reverse_lazy
 
 
 def home(request):
@@ -257,3 +259,33 @@ def edit_profile(request):
         form = ProfileUpdateForm(instance=request.user)
 
     return render(request, "core/edit_profile.html", {"form": form})
+
+class StyledSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["new_password1"].widget.attrs.update({
+            "placeholder": "Enter new password"
+        })
+        self.fields["new_password2"].widget.attrs.update({
+            "placeholder": "Confirm new password"
+        })
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "core/password_reset_confirm.html"
+    form_class = StyledSetPasswordForm
+    success_url = reverse_lazy("password_reset_complete")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        send_mail(
+            "Password Reset Successful - E-Learning",
+            "Your password has been reset successfully. "
+            "If you did not perform this action, please contact support immediately.",
+            settings.DEFAULT_FROM_EMAIL,
+            [self.user.email],
+        )
+
+        messages.success(self.request, "Your password has been reset successfully.")
+        return response
