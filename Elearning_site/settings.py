@@ -153,6 +153,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # for normal login
     'allauth.account.auth_backends.AuthenticationBackend', # for sign in with google
 ]
+SOCIALACCOUNT_AUTO_SIGNUP = True
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
