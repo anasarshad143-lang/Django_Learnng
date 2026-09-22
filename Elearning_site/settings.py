@@ -12,21 +12,27 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+
 from dotenv import load_dotenv
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+# =========================================================
+# BASE DIRECTORY
+# =========================================================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load variables from .env when running locally
 load_dotenv(BASE_DIR / ".env")
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
+# =========================================================
+# SECURITY
+# =========================================================
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-hk9dt-(52+boei%7fi8#o8mpsd@+tl#gsfc8^x8b4fpz&uc9ke'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -35,63 +41,100 @@ ALLOWED_HOSTS = [
     "django-learnng.onrender.com",
 ]
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# Render handles HTTPS through a proxy.
+# This tells Django that the original request was HTTPS.
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
 
 
-# Application definition
+# =========================================================
+# APPLICATIONS
+# =========================================================
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.sites',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'courses',
-    'accounts',
-    'enrollments',
-    'payments',
+    "django.contrib.admin",
+    "django.contrib.sites",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+
+    # Django Allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+
+    # Our apps
+    "courses",
+    "accounts",
+    "enrollments",
+    "payments",
 ]
+
+
+# =========================================================
+# MIDDLEWARE
+# =========================================================
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',   # for sign in with google
+    "django.middleware.security.SecurityMiddleware",
+
+    # Static files on Render
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    # Required by django-allauth
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
-ROOT_URLCONF = 'Elearning_site.urls'
+
+# =========================================================
+# URL / WSGI
+# =========================================================
+
+ROOT_URLCONF = "Elearning_site.urls"
+
+WSGI_APPLICATION = "Elearning_site.wsgi.application"
+
+
+# =========================================================
+# TEMPLATES
+# =========================================================
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
+
+        "APP_DIRS": True,
+
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'Elearning_site.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/6.1/ref/settings/#databases
+# =========================================================
+# DATABASE
+# =========================================================
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -101,59 +144,110 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
+# =========================================================
+# PASSWORD VALIDATION
+# =========================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        ),
     },
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/6.1/topics/i18n/
+# =========================================================
+# INTERNATIONALIZATION
+# =========================================================
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.1/howto/static-files/
+# =========================================================
+# STATIC FILES
+# =========================================================
 
 STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-# Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
+# =========================================================
+# EMAIL
+# =========================================================
 
 MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    "default": {
+        "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
 }
 
+
+# =========================================================
+# AUTHENTICATION BACKENDS
+# =========================================================
+
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # for normal login
-    'allauth.account.auth_backends.AuthenticationBackend', # for sign in with google
+    # Our normal username/password login
+    "django.contrib.auth.backends.ModelBackend",
+
+    # Google / django-allauth login
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+
+# =========================================================
+# DJANGO-ALLAUTH
+# =========================================================
+
+SITE_ID = 1
+
+
+# We do NOT want allauth to stop and ask the Google user
+# to manually create a username.
+ACCOUNT_SIGNUP_FIELDS = [
+    "email*",
+]
+
+ACCOUNT_LOGIN_METHODS = {
+    "email",
+}
+
+
+# Automatically create the Django account when a new
+# Google user successfully authenticates.
 SOCIALACCOUNT_AUTO_SIGNUP = True
+
+
+# =========================================================
+# GOOGLE LOGIN
+# =========================================================
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -161,13 +255,30 @@ SOCIALACCOUNT_PROVIDERS = {
             "profile",
             "email",
         ],
+
         "AUTH_PARAMS": {
             "access_type": "online",
         },
     }
 }
-BREVO_API_KEY = os.getenv("BREVO_API_KEY")
-BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL")
+
+
+# =========================================================
+# BREVO EMAIL API
+# =========================================================
+
+BREVO_API_KEY = os.getenv(
+    "BREVO_API_KEY"
+)
+
+BREVO_SENDER_EMAIL = os.getenv(
+    "BREVO_SENDER_EMAIL"
+)
+
+
+# =========================================================
+# STRIPE
+# =========================================================
 
 STRIPE_PUBLISHABLE_KEY = os.getenv(
     "STRIPE_PUBLISHABLE_KEY"
@@ -178,8 +289,12 @@ STRIPE_SECRET_KEY = os.getenv(
 )
 
 
-LOGIN_URL = "/user/login/"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+# =========================================================
+# LOGIN / LOGOUT REDIRECTS
+# =========================================================
 
-SITE_ID = 1
+LOGIN_URL = "/user/login/"
+
+LOGIN_REDIRECT_URL = "/"
+
+LOGOUT_REDIRECT_URL = "/"
