@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Edit Profile | E-Learning
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .edit-profile-wrapper {
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+
+    .edit-profile-header {
+        margin-bottom: 25px;
+    }
+
+
+    .edit-profile-header h1 {
+        color: var(--maroon-dark);
+        font-size: 34px;
+        margin-bottom: 8px;
+    }
+
+
+    .edit-profile-header p {
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+
+    .edit-profile-card {
+        background: white;
+
+        border:
+            1px solid var(--border);
+
+        border-radius: 20px;
+
+        padding: 35px;
+
+        box-shadow:
+            0 10px 30px
+            rgba(59, 10, 22, 0.07);
+    }
+
+
+    .edit-profile-card form p {
+        margin-bottom: 20px;
+    }
+
+
+    .edit-profile-card label {
+        display: block;
+
+        color: var(--maroon-dark);
+
+        font-weight: 600;
+
+        margin-bottom: 7px;
+    }
+
+
+    .edit-profile-card input {
+        width: 100%;
+
+        padding: 12px 14px;
+
+        border:
+            1px solid var(--border);
+
+        border-radius: 9px;
+
+        font-family: inherit;
+
+        font-size: 14px;
+    }
+
+
+    .edit-profile-card input:focus {
+        outline: none;
+
+        border-color: var(--accent);
+
+        box-shadow:
+            0 0 0 3px
+            var(--accent-light);
+    }
+
+
+    .edit-actions {
+        display: flex;
+
+        gap: 12px;
+
+        margin-top: 25px;
+    }
+
+
+    .save-btn {
+        background: var(--accent);
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 22px;
+
+        border-radius: 9px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        font-family: inherit;
+    }
+
+
+    .save-btn:hover {
+        background: var(--accent-hover);
+    }
+
+
+    .cancel-btn {
+        background: white;
+
+        color: var(--text-dark);
+
+        border:
+            1px solid var(--border);
+
+        padding: 12px 22px;
+
+        border-radius: 9px;
+
+        font-weight: 600;
+    }
+
+
+    .cancel-btn:hover {
+        border-color: var(--accent);
+
+        color: var(--accent);
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="edit-profile-wrapper">
+
+
+    <div class="edit-profile-header">
+
+        <h1>
+            Edit Profile
+        </h1>
+
+        <p>
+            Update your personal information below.
+        </p>
+
+    </div>
+
+
+    <div class="edit-profile-card">
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            {{ form.as_p }}
+
+
+            <div class="edit-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Changes
+                </button>
+
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,713 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home | E-Learning
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* ============================
+       HOME HERO
+    ============================ */
+
+    .home-hero {
+        position: relative;
+        overflow: hidden;
+
+        min-height: 540px;
+
+        display: flex;
+        align-items: center;
+
+        background:
+            linear-gradient(
+                120deg,
+                #21070e 0%,
+                #3b0a16 48%,
+                #65172e 100%
+            );
+
+        border-radius: 28px;
+
+        padding: 75px 70px;
+
+        color: white;
+
+        box-shadow:
+            0 20px 50px
+            rgba(59, 10, 22, 0.16);
+    }
+
+
+    .home-hero::before {
+        content: "";
+
+        position: absolute;
+
+        width: 500px;
+        height: 500px;
+
+        border-radius: 50%;
+
+        right: -160px;
+        top: -170px;
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(220, 80, 120, 0.40),
+                transparent 70%
+            );
+    }
+
+
+    .home-hero::after {
+        content: "";
+
+        position: absolute;
+
+        width: 350px;
+        height: 350px;
+
+        border-radius: 50%;
+
+        left: 40%;
+        bottom: -200px;
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(255, 150, 175, 0.18),
+                transparent 70%
+            );
+    }
+
+
+    .home-hero-content {
+        position: relative;
+
+        z-index: 2;
+
+        max-width: 750px;
+    }
+
+
+    .home-badge {
+        display: inline-block;
+
+        padding: 8px 16px;
+
+        margin-bottom: 25px;
+
+        border-radius: 999px;
+
+        background:
+            rgba(255,255,255,0.08);
+
+        border:
+            1px solid
+            rgba(255,255,255,0.15);
+
+        color: #ffc2d1;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        letter-spacing: 0.5px;
+    }
+
+
+    .home-hero h1 {
+        margin: 0 0 22px;
+
+        max-width: 750px;
+
+        font-size: 62px;
+
+        line-height: 1.06;
+
+        letter-spacing: -2px;
+
+        color: white;
+    }
+
+
+    .highlight {
+        color: #f3a6ba;
+    }
+
+
+    .home-hero-description {
+        max-width: 650px;
+
+        margin-bottom: 32px;
+
+        color: #eadde1;
+
+        font-size: 18px;
+
+        line-height: 1.75;
+    }
+
+
+    .hero-actions {
+        display: flex;
+
+        gap: 14px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .hero-main-button {
+        background: white;
+
+        color: #3b0a16;
+
+        padding: 14px 25px;
+
+        border-radius: 10px;
+
+        font-weight: 700;
+
+        transition: 0.2s ease;
+    }
+
+
+    .hero-main-button:hover {
+        background: #fff1f5;
+
+        color: #3b0a16;
+
+        transform: translateY(-2px);
+    }
+
+
+    .hero-secondary-button {
+        padding: 14px 25px;
+
+        border-radius: 10px;
+
+        border:
+            1px solid
+            rgba(255,255,255,0.30);
+
+        color: white;
+
+        font-weight: 600;
+
+        background:
+            rgba(255,255,255,0.07);
+
+        transition: 0.2s ease;
+    }
+
+
+    .hero-secondary-button:hover {
+        background:
+            rgba(255,255,255,0.13);
+
+        color: white;
+    }
+
+
+    /* ============================
+       FEATURES
+    ============================ */
+
+    .features {
+        margin-top: 55px;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 20px;
+    }
+
+
+    .feature {
+        background: white;
+
+        border:
+            1px solid
+            var(--border);
+
+        border-radius: 17px;
+
+        padding: 27px;
+
+        transition: 0.2s ease;
+    }
+
+
+    .feature:hover {
+        transform: translateY(-4px);
+
+        border-color: #e4a3b4;
+
+        box-shadow:
+            0 12px 30px
+            rgba(59,10,22,0.07);
+    }
+
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 18px;
+
+        border-radius: 12px;
+
+        background: #f8e7ec;
+
+        font-size: 22px;
+    }
+
+
+    .feature h3 {
+        margin: 0 0 8px;
+
+        color: #3b0a16;
+
+        font-size: 17px;
+    }
+
+
+    .feature p {
+        margin: 0;
+
+        color: var(--text-muted);
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    /* ============================
+       WELCOME SECTION
+    ============================ */
+
+    .welcome-section {
+        margin-top: 70px;
+
+        text-align: center;
+    }
+
+
+    .welcome-label {
+        color: var(--accent);
+
+        font-size: 13px;
+
+        font-weight: 800;
+
+        letter-spacing: 1px;
+
+        text-transform: uppercase;
+    }
+
+
+    .welcome-section h2 {
+        margin: 10px 0 12px;
+
+        font-size: 38px;
+
+        color: #3b0a16;
+    }
+
+
+    .welcome-section > p {
+        max-width: 650px;
+
+        margin: 0 auto;
+
+        color: var(--text-muted);
+
+        line-height: 1.7;
+    }
+
+
+    /* ============================
+       CTA
+    ============================ */
+
+    .home-cta {
+        margin-top: 70px;
+
+        padding: 55px;
+
+        border-radius: 24px;
+
+        text-align: center;
+
+        background:
+            linear-gradient(
+                120deg,
+                #3b0a16,
+                #65172e
+            );
+
+        color: white;
+    }
+
+
+    .home-cta h2 {
+        margin: 0 0 12px;
+
+        font-size: 34px;
+
+        color: white;
+    }
+
+
+    .home-cta p {
+        margin: 0 auto 25px;
+
+        max-width: 600px;
+
+        color: #eadde1;
+
+        line-height: 1.7;
+    }
+
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+
+    @media (max-width: 950px) {
+
+        .features {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+
+        .home-hero {
+            padding: 55px 35px;
+
+            min-height: 450px;
+        }
+
+
+        .home-hero h1 {
+            font-size: 48px;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .features {
+            grid-template-columns: 1fr;
+        }
+
+
+        .home-hero {
+            padding: 45px 25px;
+
+            border-radius: 20px;
+        }
+
+
+        .home-hero h1 {
+            font-size: 38px;
+        }
+
+
+        .home-hero-description {
+            font-size: 16px;
+        }
+
+
+        .welcome-section h2 {
+            font-size: 30px;
+        }
+
+
+        .home-cta {
+            padding: 40px 25px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- ================================
+     HERO
+================================ -->
+
+<section class="home-hero">
+
+    <div class="home-hero-content">
+
+
+        <div class="home-badge">
+            LEARN • GROW • SUCCEED
+        </div>
+
+
+        <h1>
+
+            Build Skills.
+
+            <br>
+
+            Create Your
+
+            <span class="highlight">
+                Future.
+            </span>
+
+        </h1>
+
+
+        <p class="home-hero-description">
+
+            Learn practical skills through high-quality
+            courses designed to help you grow, improve
+            and achieve your goals.
+
+        </p>
+
+
+        <div class="hero-actions">
+
+
+            <a href="{% url 'course_list' %}"
+               class="hero-main-button">
+
+                Explore Courses →
+
+            </a>
+
+
+            {% if not user.is_authenticated %}
+
+                <a href="{% url 'signup' %}"
+                   class="hero-secondary-button">
+
+                    Get Started
+
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'profile' %}"
+                   class="hero-secondary-button">
+
+                    My Profile
+
+                </a>
+
+            {% endif %}
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================================
+     FEATURES
+================================ -->
+
+<section class="features">
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            📚
+        </div>
+
+        <h3>
+            Quality Courses
+        </h3>
+
+        <p>
+            Learn from structured courses designed
+            to build useful and practical skills.
+        </p>
+
+    </div>
+
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            👨‍🏫
+        </div>
+
+        <h3>
+            Expert Instructors
+        </h3>
+
+        <p>
+            Learn concepts with guidance from
+            knowledgeable instructors.
+        </p>
+
+    </div>
+
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ⏱️
+        </div>
+
+        <h3>
+            Learn at Your Pace
+        </h3>
+
+        <p>
+            Access your learning material and
+            progress at a pace that suits you.
+        </p>
+
+    </div>
+
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🎯
+        </div>
+
+        <h3>
+            Practical Skills
+        </h3>
+
+        <p>
+            Focus on knowledge and skills that
+            can be applied in the real world.
+        </p>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ================================
+     WELCOME
+================================ -->
+
+<section class="welcome-section">
+
+
+    <div class="welcome-label">
+        Start Learning
+    </div>
+
+
+    <h2>
+        Learn Something New Today
+    </h2>
+
+
+    <p>
+
+        Explore courses, learn new concepts
+        and continue building the skills
+        needed to reach your goals.
+
+    </p>
+
+
+</section>
+
+
+
+<!-- ================================
+     CTA
+================================ -->
+
+<section class="home-cta">
+
+
+    {% if user.is_authenticated %}
+
+
+        <h2>
+            Ready to Continue Learning?
+        </h2>
+
+
+        <p>
+
+            Browse the available courses and
+            continue developing your skills.
+
+        </p>
+
+
+        <a href="{% url 'course_list' %}"
+           class="btn btn-light">
+
+            Browse Courses →
+
+        </a>
+
+
+    {% else %}
+
+
+        <h2>
+            Ready to Start Learning?
+        </h2>
+
+
+        <p>
+
+            Create your account and start
+            exploring our courses today.
+
+        </p>
+
+
+        <a href="{% url 'signup' %}"
+           class="btn btn-light">
+
+            Create Free Account →
+
+        </a>
+
+
+    {% endif %}
+
+
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}
+Sign Up | E-Learning
+{% endblock %}
+
+
+{% block content %}
+
+<div class="form-card">
+
+    <h1>Create Account</h1>
+
+    <p class="form-subtitle">
+        Join E-Learning and start learning today.
+    </p>
+
+
+    {% if error %}
+        <div class="message error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <p>
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Choose a username"
+                required
+            >
+        </p>
+
+
+        <p>
+            <label>Email</label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+        </p>
+
+
+        <p>
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create a password"
+                required
+            >
+        </p>
+
+
+        <button type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin:25px 0;
+        color:#9a858b;
+        font-size:14px;
+    ">
+
+        <div style="
+            flex:1;
+            height:1px;
+            background:#eadde1;
+        "></div>
+
+        OR
+
+        <div style="
+            flex:1;
+            height:1px;
+            background:#eadde1;
+        "></div>
+
+    </div>
+
+
+    <a
+        href="{% provider_login_url 'google' %}"
+        style="
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+
+            padding:13px;
+
+            border:1px solid #eadde1;
+            border-radius:9px;
+
+            background:white;
+
+            color:#24151a;
+
+            font-weight:600;
+        "
+    >
+
+        <span style="
+            font-size:18px;
+            font-weight:700;
+            color:#4285F4;
+        ">
+            G
+        </span>
+
+        Sign up with Google
+
+    </a>
+
+
+    <p style="
+        text-align:center;
+        margin-top:25px;
+        color:#74656a;
+    ">
+
+        Already have an account?
+
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+
+    </p>
+
+</div>
+
+{% endblock %}

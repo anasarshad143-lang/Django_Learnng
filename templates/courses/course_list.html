@@ -1,0 +1,474 @@
+{% extends "base.html" %}
+
+{% block title %}
+Courses | E-Learning
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .courses-header {
+        margin-bottom: 35px;
+    }
+
+    .courses-header span {
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .courses-header h1 {
+        margin: 8px 0 8px;
+        color: var(--maroon-dark);
+        font-size: 42px;
+        letter-spacing: -1px;
+    }
+
+    .courses-header p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 16px;
+    }
+
+
+    .course-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(280px, 1fr));
+
+        gap: 28px;
+    }
+
+
+    .course-card {
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 8px 25px
+            rgba(59, 10, 22, 0.05);
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .course-card:hover {
+        transform: translateY(-6px);
+
+        box-shadow:
+            0 16px 35px
+            rgba(59, 10, 22, 0.11);
+    }
+
+
+    .course-card-top {
+        height: 170px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #21070e,
+                #3b0a16,
+                #65172e
+            );
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    .course-card-top::before {
+        content: "";
+
+        position: absolute;
+
+        width: 180px;
+
+        height: 180px;
+
+        border-radius: 50%;
+
+        right: -50px;
+
+        top: -60px;
+
+        background:
+            rgba(255, 255, 255, 0.07);
+    }
+
+
+    .course-card-top::after {
+        content: "";
+
+        position: absolute;
+
+        width: 100px;
+
+        height: 100px;
+
+        border-radius: 50%;
+
+        left: -30px;
+
+        bottom: -35px;
+
+        background:
+            rgba(255, 255, 255, 0.05);
+    }
+
+
+    .course-icon {
+        position: relative;
+
+        z-index: 2;
+
+        width: 78px;
+
+        height: 78px;
+
+        border-radius: 20px;
+
+        background:
+            rgba(255,255,255,0.10);
+
+        border:
+            1px solid
+            rgba(255,255,255,0.18);
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        color: white;
+
+        font-size: 34px;
+
+        font-weight: 800;
+    }
+
+
+    .course-card-body {
+        padding: 24px;
+    }
+
+
+    .course-tag {
+        display: inline-block;
+
+        background: var(--accent-light);
+
+        color: var(--accent);
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        padding: 6px 11px;
+
+        border-radius: 999px;
+
+        margin-bottom: 14px;
+    }
+
+
+    .course-card h2 {
+        margin: 0 0 10px;
+
+        font-size: 23px;
+
+        color: var(--maroon-dark);
+
+        line-height: 1.3;
+    }
+
+
+    .course-card h2 a {
+        color: var(--maroon-dark);
+    }
+
+
+    .course-card h2 a:hover {
+        color: var(--accent);
+    }
+
+
+    .course-description {
+        color: var(--text-muted);
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        min-height: 45px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .course-meta {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 15px;
+
+        padding: 16px 0;
+
+        border-top:
+            1px solid var(--border);
+
+        border-bottom:
+            1px solid var(--border);
+
+        margin-bottom: 18px;
+    }
+
+
+    .instructor {
+        color: var(--text-muted);
+
+        font-size: 13px;
+    }
+
+
+    .instructor strong {
+        display: block;
+
+        color: var(--text-dark);
+
+        margin-top: 3px;
+    }
+
+
+    .price {
+        font-size: 20px;
+
+        font-weight: 800;
+
+        color: var(--accent);
+
+        white-space: nowrap;
+    }
+
+
+    .course-card-footer {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 12px;
+    }
+
+
+    .view-course-btn {
+        flex: 1;
+
+        text-align: center;
+
+        background: var(--accent);
+
+        color: white;
+
+        padding: 12px 16px;
+
+        border-radius: 10px;
+
+        font-weight: 700;
+
+        transition: 0.2s ease;
+    }
+
+
+    .view-course-btn:hover {
+        background: var(--accent-hover);
+
+        color: white;
+
+        transform: translateY(-1px);
+    }
+
+
+    .empty-courses {
+        grid-column: 1 / -1;
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 18px;
+
+        padding: 50px;
+
+        text-align: center;
+
+        color: var(--text-muted);
+    }
+
+
+    @media (max-width: 600px) {
+
+        .courses-header h1 {
+            font-size: 34px;
+        }
+
+        .course-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="courses-header">
+
+    <span>
+        Explore Courses
+    </span>
+
+    <h1>
+        Available Courses
+    </h1>
+
+    <p>
+        Browse our courses and choose what you want to learn next.
+    </p>
+
+</div>
+
+
+<div class="course-grid">
+
+    {% for course in courses %}
+
+        <article class="course-card">
+
+
+            <div class="course-card-top">
+
+                <div class="course-icon">
+                    {{ course.title|slice:":1" }}
+                </div>
+
+            </div>
+
+
+            <div class="course-card-body">
+
+
+                <span class="course-tag">
+                    Course
+                </span>
+
+
+                <h2>
+
+                    <a href="{% url 'course_detail' course.id %}">
+                        {{ course.title }}
+                    </a>
+
+                </h2>
+
+
+                <p class="course-description">
+
+                    {% if course.description %}
+
+                        {{ course.description|truncatechars:100 }}
+
+                    {% else %}
+
+                        Start learning this course and build practical skills.
+
+                    {% endif %}
+
+                </p>
+
+
+                <div class="course-meta">
+
+
+                    <div class="instructor">
+
+                        Instructor
+
+                        <strong>
+                            {{ course.instructor }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="price">
+                        Rs. {{ course.price }}
+                    </div>
+
+
+                </div>
+
+
+                <div class="course-card-footer">
+
+                    <a
+                        href="{% url 'course_detail' course.id %}"
+                        class="view-course-btn"
+                    >
+                        View Course →
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        </article>
+
+
+    {% empty %}
+
+        <div class="empty-courses">
+
+            <h2>
+                No courses available yet.
+            </h2>
+
+            <p>
+                New courses will appear here once they are added.
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

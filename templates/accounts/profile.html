@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile | E-Learning
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .profile-wrapper {
+        max-width: 900px;
+        margin: 20px auto;
+    }
+
+
+    .profile-header {
+        background: linear-gradient(
+            120deg,
+            #21070e,
+            #3b0a16,
+            #65172e
+        );
+
+        color: white;
+
+        border-radius: 24px;
+
+        padding: 45px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 25px;
+
+        box-shadow:
+            0 18px 40px
+            rgba(59, 10, 22, 0.14);
+    }
+
+
+    .profile-avatar {
+        width: 95px;
+        height: 95px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.12);
+
+        border: 3px solid rgba(255,255,255,0.22);
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 40px;
+
+        flex-shrink: 0;
+    }
+
+
+    .profile-info h1 {
+        margin: 0 0 8px;
+
+        font-size: 32px;
+
+        color: white;
+    }
+
+
+    .profile-info p {
+        margin: 5px 0;
+
+        color: #eadde1;
+    }
+
+
+    .profile-card {
+        margin-top: 25px;
+
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 35px;
+
+        border: 1px solid var(--border);
+
+        box-shadow:
+            0 8px 25px
+            rgba(59, 10, 22, 0.06);
+    }
+
+
+    .profile-card h2 {
+        margin-top: 0;
+
+        margin-bottom: 25px;
+
+        color: var(--maroon-dark);
+    }
+
+
+    .profile-row {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 18px 0;
+
+        border-bottom:
+            1px solid var(--border);
+    }
+
+
+    .profile-row:last-child {
+        border-bottom: none;
+    }
+
+
+    .profile-label {
+        color: var(--text-muted);
+
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    .profile-value {
+        color: var(--text-dark);
+
+        font-weight: 600;
+    }
+
+
+    .profile-actions {
+        margin-top: 25px;
+
+        display: flex;
+
+        gap: 12px;
+
+        flex-wrap: wrap;
+    }
+
+
+    @media (max-width: 650px) {
+
+        .profile-header {
+            flex-direction: column;
+
+            text-align: center;
+
+            padding: 35px 25px;
+        }
+
+
+        .profile-row {
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 7px;
+        }
+
+
+        .profile-actions {
+            flex-direction: column;
+        }
+
+
+        .profile-actions .btn {
+            text-align: center;
+            width: 100%;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="profile-wrapper">
+
+
+    <!-- PROFILE HEADER -->
+
+    <div class="profile-header">
+
+
+        <div class="profile-avatar">
+            👤
+        </div>
+
+
+        <div class="profile-info">
+
+            <h1>
+
+                {% if user.first_name %}
+
+                    {{ user.first_name }}
+                    {{ user.last_name }}
+
+                {% else %}
+
+                    {{ user.username }}
+
+                {% endif %}
+
+            </h1>
+
+
+            <p>
+                {{ user.email }}
+            </p>
+
+
+            <p>
+                E-Learning Student
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ACCOUNT INFORMATION -->
+
+    <div class="profile-card">
+
+
+        <h2>
+            Account Information
+        </h2>
+
+
+        <!-- USERNAME -->
+
+        <div class="profile-row">
+
+            <span class="profile-label">
+                Username
+            </span>
+
+            <span class="profile-value">
+                {{ user.username }}
+            </span>
+
+        </div>
+
+
+        <!-- FIRST NAME -->
+
+        <div class="profile-row">
+
+            <span class="profile-label">
+                First Name
+            </span>
+
+            <span class="profile-value">
+
+                {% if user.first_name %}
+
+                    {{ user.first_name }}
+
+                {% else %}
+
+                    Not provided
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <!-- LAST NAME -->
+
+        <div class="profile-row">
+
+            <span class="profile-label">
+                Last Name
+            </span>
+
+            <span class="profile-value">
+
+                {% if user.last_name %}
+
+                    {{ user.last_name }}
+
+                {% else %}
+
+                    Not provided
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="profile-row">
+
+            <span class="profile-label">
+                Email
+            </span>
+
+            <span class="profile-value">
+
+                {% if user.email %}
+
+                    {{ user.email }}
+
+                {% else %}
+
+                    No email added
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <!-- DATE JOINED -->
+
+        <div class="profile-row">
+
+            <span class="profile-label">
+                Date Joined
+            </span>
+
+            <span class="profile-value">
+                {{ user.date_joined|date:"d M Y" }}
+            </span>
+
+        </div>
+
+
+
+        <!-- PROFILE ACTIONS -->
+
+        <div class="profile-actions">
+
+
+            <!-- EDIT PROFILE -->
+
+            <a
+                href="{% url 'edit_profile' %}"
+                class="btn btn-primary"
+            >
+                ✏️ Edit Profile
+            </a>
+
+
+            <!-- MY COURSES -->
+
+            <a
+                href="{% url 'my_courses' %}"
+                class="btn btn-outline"
+            >
+                My Courses
+            </a>
+
+
+            <!-- BROWSE COURSES -->
+
+            <a
+                href="{% url 'course_list' %}"
+                class="btn btn-outline"
+            >
+                Browse Courses
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="{% url 'logout' %}"
+                class="btn btn-outline"
+            >
+                Logout
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

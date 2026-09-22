@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}
+Login | E-Learning
+{% endblock %}
+
+
+{% block content %}
+
+<div class="form-card">
+
+    <h1>Welcome Back</h1>
+
+    <p class="form-subtitle">
+        Login to continue learning.
+    </p>
+
+
+    {% if error %}
+        <div class="message error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            name="next"
+            value="{{ request.GET.next }}"
+        >
+
+
+        <p>
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                required
+            >
+        </p>
+
+
+        <p>
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+        </p>
+
+
+        <!-- Forgot Password -->
+        <div style="
+            text-align:right;
+            margin-top:-8px;
+            margin-bottom:18px;
+        ">
+
+            <a
+                href="{% url 'forgot_password' %}"
+                style="
+                    color:#8b1e3f;
+                    font-size:14px;
+                    font-weight:600;
+                    text-decoration:none;
+                "
+            >
+                Forgot Password?
+            </a>
+
+        </div>
+
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin:25px 0;
+        color:#9a858b;
+        font-size:14px;
+    ">
+
+        <div style="
+            flex:1;
+            height:1px;
+            background:#eadde1;
+        "></div>
+
+        OR
+
+        <div style="
+            flex:1;
+            height:1px;
+            background:#eadde1;
+        "></div>
+
+    </div>
+
+
+    <a
+        href="{% provider_login_url 'google' %}"
+        style="
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+
+            padding:13px;
+
+            border:1px solid #eadde1;
+            border-radius:9px;
+
+            background:white;
+
+            color:#24151a;
+
+            font-weight:600;
+
+            transition:0.2s;
+        "
+    >
+
+        <span style="
+            font-size:18px;
+            font-weight:700;
+            color:#4285F4;
+        ">
+            G
+        </span>
+
+        Continue with Google
+
+    </a>
+
+
+    <p style="
+        text-align:center;
+        margin-top:25px;
+        color:#74656a;
+    ">
+
+        Don't have an account?
+
+        <a href="{% url 'signup' %}">
+            Sign Up
+        </a>
+
+    </p>
+
+</div>
+
+{% endblock %}

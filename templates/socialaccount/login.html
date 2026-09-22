@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block title %}
+Continue with Google | E-Learning
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .social-login-wrapper {
+        min-height: 65vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .social-login-card {
+        width: 100%;
+        max-width: 480px;
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 22px;
+
+        padding: 45px 40px;
+
+        text-align: center;
+
+        box-shadow:
+            0 18px 45px
+            rgba(59, 10, 22, 0.09);
+    }
+
+
+    .google-icon {
+        width: 65px;
+        height: 65px;
+
+        margin: 0 auto 22px;
+
+        border-radius: 18px;
+
+        background: #ffffff;
+
+        border: 1px solid var(--border);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 29px;
+        font-weight: 800;
+
+        color: #4285f4;
+
+        box-shadow:
+            0 6px 18px
+            rgba(0, 0, 0, 0.06);
+    }
+
+
+    .social-login-card h1 {
+        margin: 0 0 12px;
+
+        color: var(--maroon-dark);
+
+        font-size: 30px;
+
+        font-weight: 800;
+
+        letter-spacing: -0.6px;
+    }
+
+
+    .social-description {
+        color: var(--text-muted);
+
+        font-size: 15px;
+
+        line-height: 1.7;
+
+        margin-bottom: 30px;
+    }
+
+
+    .google-name {
+        color: var(--maroon-dark);
+
+        font-weight: 700;
+    }
+
+
+    .continue-form {
+        margin: 0;
+    }
+
+
+    .continue-form button {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 10px;
+
+        background: var(--accent) !important;
+
+        color: white;
+
+        border: none;
+
+        padding: 14px 20px !important;
+
+        border-radius: 10px !important;
+
+        font-family: inherit;
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        margin: 0 !important;
+
+        transition: 0.2s ease;
+    }
+
+
+    .continue-form button:hover {
+        background: var(--accent-hover) !important;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 20px
+            rgba(59, 10, 22, 0.18);
+    }
+
+
+    .security-note {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 7px;
+
+        margin-top: 20px;
+
+        color: #968087;
+
+        font-size: 12px;
+    }
+
+
+    .back-login {
+        display: inline-block;
+
+        margin-top: 25px;
+
+        color: var(--accent);
+
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    .back-login:hover {
+        color: var(--accent-hover);
+    }
+
+
+    @media (max-width: 600px) {
+
+        .social-login-card {
+            padding: 35px 25px;
+        }
+
+
+        .social-login-card h1 {
+            font-size: 26px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="social-login-wrapper">
+
+
+    <div class="social-login-card">
+
+
+        <!-- Google Icon -->
+
+        <div class="google-icon">
+            G
+        </div>
+
+
+
+        <!-- Heading -->
+
+        <h1>
+            Continue with Google
+        </h1>
+
+
+
+        <!-- Description -->
+
+        <p class="social-description">
+
+            You're about to sign in to
+
+            <span class="google-name">
+                E-Learning
+            </span>
+
+            using your Google account.
+
+        </p>
+
+
+
+        <!--
+            IMPORTANT:
+            django-allauth needs this POST form.
+
+            Do NOT replace this with a normal link.
+        -->
+
+        <form method="post"
+              class="continue-form">
+
+            {% csrf_token %}
+
+
+            <button type="submit">
+
+                Continue to Google →
+
+            </button>
+
+        </form>
+
+
+
+        <div class="security-note">
+
+            🔒 Secure authentication through Google
+
+        </div>
+
+
+
+        <a href="{% url 'login' %}"
+           class="back-login">
+
+            ← Back to Login
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

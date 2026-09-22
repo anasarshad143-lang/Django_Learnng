@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}
+About | E-Learning
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .about-hero {
+        background:
+            linear-gradient(
+                120deg,
+                #21070e,
+                #3b0a16,
+                #65172e
+            );
+
+        color: white;
+
+        border-radius: 26px;
+
+        padding: 70px 60px;
+
+        text-align: center;
+
+        margin-bottom: 50px;
+
+        box-shadow:
+            0 18px 45px
+            rgba(59, 10, 22, 0.13);
+    }
+
+
+    .about-hero h1 {
+        margin: 0 0 18px;
+
+        font-size: 52px;
+
+        color: white;
+
+        letter-spacing: -1px;
+    }
+
+
+    .about-hero p {
+        max-width: 720px;
+
+        margin: 0 auto;
+
+        color: #eadde1;
+
+        font-size: 18px;
+
+        line-height: 1.7;
+    }
+
+
+    .about-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 24px;
+
+        margin-bottom: 50px;
+    }
+
+
+    .about-card {
+        background: white;
+
+        padding: 32px;
+
+        border-radius: 18px;
+
+        border:
+            1px solid
+            var(--border);
+
+        transition: 0.2s ease;
+    }
+
+
+    .about-card:hover {
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 14px 30px
+            rgba(59, 10, 22, 0.08);
+    }
+
+
+    .about-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 14px;
+
+        background: var(--accent-light);
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 24px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .about-card h3 {
+        margin: 0 0 10px;
+
+        color: var(--maroon-dark);
+
+        font-size: 20px;
+    }
+
+
+    .about-card p {
+        margin: 0;
+
+        color: var(--text-muted);
+
+        line-height: 1.7;
+    }
+
+
+    .about-story {
+        background: white;
+
+        border:
+            1px solid
+            var(--border);
+
+        border-radius: 20px;
+
+        padding: 45px;
+
+        margin-bottom: 40px;
+    }
+
+
+    .about-story h2 {
+        margin-top: 0;
+
+        color: var(--maroon-dark);
+
+        font-size: 32px;
+    }
+
+
+    .about-story p {
+        color: var(--text-muted);
+
+        line-height: 1.8;
+
+        font-size: 16px;
+    }
+
+
+    @media (max-width: 850px) {
+
+        .about-grid {
+            grid-template-columns: 1fr;
+        }
+
+
+        .about-hero {
+            padding: 50px 30px;
+        }
+
+
+        .about-hero h1 {
+            font-size: 40px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="about-hero">
+
+    <h1>
+        About E-Learning
+    </h1>
+
+    <p>
+        Our goal is to make learning simple,
+        accessible and practical for everyone.
+        We help students build useful skills
+        through well-structured online courses.
+    </p>
+
+</section>
+
+
+
+<section class="about-grid">
+
+
+    <div class="about-card">
+
+        <div class="about-icon">
+            🎯
+        </div>
+
+        <h3>
+            Our Mission
+        </h3>
+
+        <p>
+            To provide accessible and practical
+            learning experiences that help students
+            grow academically and professionally.
+        </p>
+
+    </div>
+
+
+    <div class="about-card">
+
+        <div class="about-icon">
+            👁️
+        </div>
+
+        <h3>
+            Our Vision
+        </h3>
+
+        <p>
+            To create a platform where anyone can
+            learn valuable skills and work toward
+            a better future.
+        </p>
+
+    </div>
+
+
+    <div class="about-card">
+
+        <div class="about-icon">
+            💡
+        </div>
+
+        <h3>
+            Our Approach
+        </h3>
+
+        <p>
+            We focus on clear concepts, practical
+            knowledge and flexible learning that
+            students can follow at their own pace.
+        </p>
+
+    </div>
+
+
+</section>
+
+
+
+<section class="about-story">
+
+    <h2>
+        Why E-Learning?
+    </h2>
+
+    <p>
+        Learning should not feel complicated.
+        E-Learning is designed to provide students
+        with a simple and structured environment
+        where they can explore courses, develop
+        skills and continue their learning journey.
+    </p>
+
+    <p>
+        Our platform focuses on useful knowledge,
+        flexible access and a user-friendly
+        experience so learners can concentrate on
+        what matters most — learning and growing.
+    </p>
+
+</section>
+
+{% endblock %}
