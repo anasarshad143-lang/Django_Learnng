@@ -31,14 +31,21 @@ load_dotenv(BASE_DIR / ".env")
 # SECURITY
 # =========================================================
 
-SECRET_KEY = 'django-insecure-hk9dt-(52+boei%7fi8#o8mpsd@+tl#gsfc8^x8b4fpz&uc9ke'
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "django-insecure-local-development-key"
+)
 
-DEBUG = True
+DEBUG = os.getenv(
+    "DEBUG",
+    "True"
+).lower() == "true"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "django-learnng.onrender.com",
+    "e-learning-o20w.onrender.com",
 ]
 
 # Render handles HTTPS through a proxy.
