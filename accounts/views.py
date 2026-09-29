@@ -10,6 +10,12 @@ from .forms import EditProfileForm
 from .models import EmailOTP, PasswordResetOTP
 from .utils import send_brevo_email
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from .serializers import UserSerializer
+
 
 # =========================================================
 # SIGNUP
@@ -567,3 +573,9 @@ def reset_password(request):
         request,
         "accounts/reset_password.html"
     )
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def api_profile(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)

@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "rest_framework",
 
     # Our apps
     "courses",
@@ -144,8 +145,8 @@ TEMPLATES = [
 # =========================================================
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    "default": dj_database_url.parse(
+        os.environ["DATABASE_URL"],
         conn_max_age=600,
     )
 }
@@ -295,6 +296,11 @@ STRIPE_SECRET_KEY = os.getenv(
     "STRIPE_SECRET_KEY"
 )
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
 
 # =========================================================
 # LOGIN / LOGOUT REDIRECTS
